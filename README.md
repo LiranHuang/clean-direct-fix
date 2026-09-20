@@ -1,10 +1,40 @@
-# Canonical Repair Discipline
+# Clean Direct Fix
 
-A portable OpenClaw skill for clean optimization and repair work.
+A portable OpenClaw skill for repairing code, configuration, prompts, policies, data flow, and runtime wiring through one trustworthy canonical path.
 
-The skill enforces one canonical owner for each behavior, avoids patch-on-patch fixes, rejects fallback-heavy repairs, and requires duplicate-semantic checks for code, config, prompt, runtime, and policy changes.
+It prevents patch-on-patch fixes, fallback-heavy heuristics, duplicate semantic owners, and old/new implementations remaining active together.
 
-## Contents
+## Core capabilities
+
+- Names one canonical owner before editing.
+- Replaces the bad path instead of adding a parallel path.
+- Centralizes duplicated constants, budgets, thresholds, and routing rules.
+- Requires positive checks plus negative/count checks for duplicate semantics.
+- Keeps compatibility shims bounded by owner and removal condition.
+- Verifies the real runtime entry path and removes temporary validation artifacts.
+
+## Install
+
+```bash
+openclaw skills install \
+  git:LiranHuang/clean-direct-fix \
+  --global
+```
+
+Then add `clean-direct-fix` to the intended agent skill allowlist.
+
+## Use it for
+
+- bug fixes and refactors;
+- prompt or policy repairs;
+- configuration consolidation;
+- duplicate routing or renderer cleanup;
+- runtime lifecycle repairs;
+- migration from obsolete implementations to one canonical path.
+
+This skill owns concrete repair mechanics. It does not replace project planning, approval policy, worktree strategy, or parent-task orchestration.
+
+## Package
 
 ```text
 SKILL.md
@@ -12,17 +42,4 @@ references/checklist.md
 references/source-notes.md
 ```
 
-`SKILL.md` is intentionally placed at the repository root so the repository can be used directly as the skill package root.
-
-## Core philosophy
-
-- Replace bad paths with one trustworthy owner.
-- Do not stack new fallback logic on top of broken logic.
-- Rewrite existing semantic owners instead of adding sibling owners.
-- Remove or archive obsolete paths immediately when safe.
-- For runtime features, use the existing daemon/service lifecycle when it already owns the behavior; avoid parallel timers/services/runners unless a real boundary justifies them.
-- Verify with positive checks plus negative/count checks that duplicate owners are absent.
-
-## Status
-
-Local repository only. Remote origin is intentionally not configured yet.
+`SKILL.md` is at the repository root so the repository can be installed directly as an OpenClaw skill package.

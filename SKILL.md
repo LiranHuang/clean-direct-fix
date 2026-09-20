@@ -1,66 +1,97 @@
 ---
-name: canonical-repair-discipline
-description: Packages a generic clean repair discipline for code, config, prompt, and runtime fixes: one canonical owner, no patch-on-patch repairs, no fallback-heavy heuristics, and duplicate-semantic gates. Use when repairing bugs, refactoring prompt/config/runtime text, consolidating duplicated behavior, reviewing fixes, or preparing a reusable repair checklist without applying it automatically.
+name: "clean-direct-fix"
+description: "Repair code, config, prompts, policies, and runtime wiring through one trustworthy canonical path"
 ---
 
-# Canonical Repair Discipline
+# Clean Direct Fix (V2)
 
-Use this skill when a repair or optimization risks becoming patch-on-patch work. The goal is to replace bad paths with one trustworthy owner, not to add more branches, fallbacks, or explanatory lines.
+Use this skill before repairing or optimizing code, configuration, prompts, policy text, data flow, or runtime wiring. Replace the bad path with one trustworthy owner instead of stacking new logic on top.
 
-## Pre-edit contract
+This skill owns concrete repair mechanics. Project goals, worktree strategy, approval boundaries, and parent continuation remain with their canonical engineering or orchestration owners.
 
-Before editing code, config, prompts, runtime wiring, or policy text, state:
+## 1. State The Repair Contract
 
-1. **Repair philosophy:** no patch-on-patch, no fallback-heavy catch-all heuristics, no “just add one line” fixes, no parallel owners for one behavior.
-2. **Canonical owner:** the one function, field, config key, prompt block, service, or data path that should own the behavior.
-3. **Bad/obsolete path:** the broken, duplicated, deprecated, or conflicting path being replaced, removed, or archived.
-4. **Unaffected paths:** adjacent behavior that must remain unchanged.
+Before editing, state briefly:
+
+1. **Repair philosophy:** no patch-on-patch, broad catch-all heuristics, fallback-heavy fixes, or parallel owners for one behavior.
+2. **Canonical owner:** the one function, field, config key, prompt block, service, or data path that should own the behavior after repair.
+3. **Bad or obsolete path:** the broken, duplicated, deprecated, or conflicting path being replaced, removed, or archived.
+4. **Unaffected paths:** adjacent behavior, data, services, or user-visible flows that must remain unchanged.
 
 If the canonical owner is unclear, inspect first. Do not add a fallback to avoid understanding the system.
 
-## Core rules
+## 2. Repair Through One Main Path
 
-- Fix the source of truth, not only the renderer, display, or symptom.
-- Replace or rewrite the existing owner instead of adding a sibling owner.
-- Remove/archive stale paths immediately when safe; prefer recoverable archive over destructive deletion.
-- Temporary compatibility shims require owner, purpose, and removal condition.
-- Keep renderers pure: render canonical state; do not invent business rules there.
-- Keep write/maintenance layers responsible for merge, dedupe, provenance, audit, and lifecycle.
-- For daemon/runtime features, name the existing runtime owner before adding a scheduler, timer, cron, service, or runner. If the main daemon already has lifecycle hooks, integrate start/stop there instead of creating a parallel lifecycle, unless the user explicitly requested isolation or a real privilege/scheduling/failure-isolation boundary requires it.
-- Bound the blast radius; do not alter unrelated flows just because they are nearby.
+- Fix the source of truth, not only the symptom, renderer, or display layer.
+- Rewrite or extend the existing canonical owner instead of creating a sibling owner.
+- Centralize constants, budgets, thresholds, and routing rules; remove scattered hard-coded variants.
+- Do not let one semantic fact enter a prompt or model through multiple fields.
+- Keep renderers pure: read canonical state and render it without inventing business policy.
+- Keep write and maintenance layers responsible for merge, dedupe, provenance, archive, audit, and lifecycle.
+- Name the existing runtime owner before adding a scheduler, timer, cron, service, watcher, or runner.
+- Integrate with existing lifecycle hooks unless an explicit privilege, scheduling, failure-isolation, or user-requested boundary requires a separate runtime.
+- Remove or archive stale paths when the replacement is verified; prefer recoverable archive or trash over destructive deletion.
+- Bound the blast radius. Do not change unrelated paths merely because they are nearby.
 
-## Duplicate-semantic gate
+## 3. Enforce The Duplicate-Semantic Gate
 
-For prompt/config/runtime/policy text, identify repeated labels and repeated semantic responsibilities before editing.
+Before editing prompt, config, policy, routing, or runtime text, search the target surface for repeated labels and repeated semantic responsibilities.
 
-Do not add another line for a new edge case when an existing line/function/field owns that meaning. Instead:
+When an existing line, function, field, branch, or prompt block already owns the meaning:
 
-1. choose the canonical owner;
-2. merge the new edge case into that owner;
-3. delete or rewrite stale sibling text/path;
-4. add positive and negative/count checks proving the owner is present exactly once.
+1. select that canonical owner;
+2. merge the new requirement into it;
+3. delete or rewrite stale siblings;
+4. add a positive assertion for the required behavior;
+5. add a negative or count assertion proving duplicate owners are absent.
 
-Labels such as `usage`, `instructions`, `rules`, `policy`, `context`, `notes`, `warning`, `使用说明`, `规则`, or domain-specific section names should appear once unless explicitly modeled as list entries.
+Repeated labels are valid only when the schema explicitly models them as list entries or separate scoped owners.
 
-## Verification gate
+## 4. Reject “Just Add A Line” Repairs
+
+For prompt, policy, config, routing, and renderer changes, adding explanatory text is suspicious by default. Before adding it, answer:
+
+- Which existing owner already holds this semantic responsibility?
+- Why can that owner not be rewritten?
+- Which old text, field, function, or path will be removed or superseded?
+
+If nothing is replaced, removed, or deliberately superseded, reject the change unless it is a bounded compatibility shim.
+
+## 5. Bound Compatibility And Migration
+
+A compatibility shim is allowed only when it records:
+
+- owner;
+- purpose;
+- supported old and new surfaces;
+- removal condition;
+- verification proving it does not become a second source of truth.
+
+Do not leave old and new implementations active for the same behavior. Migrate callers, configuration, tests, and runtime entrypoints to the canonical owner, then remove or archive the old path when safe.
+
+## 6. Verify The Real Entry Path
 
 Before claiming completion:
 
-- inspect the diff for old/new paths coexisting;
-- run the smallest meaningful compile/test/lint/build/health check;
-- for prompt/config/policy changes, run positive presence checks and negative/count checks for duplicate labels or semantic owners;
-- grep or otherwise inspect that stale sibling labels/functions/fields/paths/services/timers/runners are gone;
-- verify runtime continuity for every process that can load the changed path;
-- for runtime lifecycle repairs, verify the canonical service/daemon owns the behavior and obsolete timers/services/runners are disabled or absent;
-- check for unrelated churn, secrets, and dirty config writes.
+- inspect the diff for old and new paths coexisting;
+- run the smallest meaningful compile, test, lint, build, or health check through the real entry path;
+- run targeted positive checks for the required behavior;
+- run negative or count checks for duplicate labels, fields, functions, config keys, services, timers, or runners;
+- inspect that stale siblings and obsolete entrypoints are absent or intentionally archived;
+- verify every process that can load the changed path is using the verified version;
+- verify the canonical service or daemon owns runtime lifecycle after the repair;
+- confirm temporary validation runners and artifacts were removed or explicitly retained;
+- check for unrelated churn, secrets, and dirty configuration writes.
 
-## Final report
+A local edit or passing substitute-path test is not completion when the real entry path still loads stale behavior.
 
-Use concise bullets:
+## 7. Report Concisely
 
-- **Main path:** canonical owner now responsible.
-- **Removed/obsolete path:** stale sibling labels/functions/fields/paths removed, merged, archived, or intentionally retained with reason.
-- **Verification:** exact diff/test/build/lint/health/count checks run.
-- **Remaining risk:** fallback, stale path, unverified edge, or “none known”.
+Return:
 
-See [references/checklist.md](references/checklist.md) for a portable checklist and [references/source-notes.md](references/source-notes.md) for provenance.
+- **Main path:** the canonical owner now responsible.
+- **Removed or superseded path:** stale siblings removed, merged, archived, or intentionally retained with a removal condition.
+- **Verification:** exact diff, test, build, lint, health, positive, and negative/count checks run.
+- **Remaining risk:** stale path, compatibility shim, unverified edge, or `none known`.
+
+See [references/checklist.md](references/checklist.md) for the portable execution checklist and [references/source-notes.md](references/source-notes.md) for provenance and scope.
