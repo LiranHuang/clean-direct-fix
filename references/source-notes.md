@@ -1,5 +1,9 @@
 # Source notes
 
+Historical provenance only. Current scope and conditional verification rules
+are owned by `SKILL.md` and `repair-checklist.md`; the older V2 lessons below
+do not require extra audits, blanket negative tests, or whole-runtime sweeps.
+
 Clean Direct Fix V2 consolidates the public `canonical-repair-discipline` package with durable generic improvements proven in the local `clean-direct-fix` workflow.
 
 Retained general lessons:

@@ -1,45 +1,24 @@
 # Clean Direct Fix
 
-A portable OpenClaw skill for repairing code, configuration, prompts, policies, data flow, and runtime wiring through one trustworthy canonical path.
+Repair known configuration, prompt, policy, routing and runtime-wiring defects
+through one canonical owner. Repository code changes use `start-to-code`.
 
-It prevents patch-on-patch fixes, fallback-heavy heuristics, duplicate semantic owners, and old/new implementations remaining active together.
+Fix the cause with a proportionate change. Avoid speculative switches, fallback
+routes, retries and duplicate checks; keep necessary security, integrity and
+recovery. Inspect this in the existing final check, without an extra audit.
 
-## Core capabilities
+## Installation
 
-- Names one canonical owner before editing.
-- Replaces the bad path instead of adding a parallel path.
-- Centralizes duplicated constants, budgets, thresholds, and routing rules.
-- Requires positive checks plus negative/count checks for duplicate semantics.
-- Keeps compatibility shims bounded by owner and removal condition.
-- Verifies the real runtime entry path and removes temporary validation artifacts.
+The repository root is the skill package. Install `SKILL.md` and `references/`
+as `clean-direct-fix` in the host runtime's configured skill directory. Codex,
+DSH, OpenClaw and other compatible runtimes retain their native permissions,
+task tracking and lifecycle rules. Load the detailed repair checklist only for
+complex, multi-surface or high-risk repairs.
 
-## Install
+## Contents
 
-```bash
-openclaw skills install \
-  git:LiranHuang/clean-direct-fix \
-  --global
-```
+- `SKILL.md`: scope and repair decisions.
+- `references/repair-checklist.md`: conditional detailed procedure.
+- `references/source-notes.md`: historical provenance, not additional rules.
 
-Then add `clean-direct-fix` to the intended agent skill allowlist.
-
-## Use it for
-
-- bug fixes and refactors;
-- prompt or policy repairs;
-- configuration consolidation;
-- duplicate routing or renderer cleanup;
-- runtime lifecycle repairs;
-- migration from obsolete implementations to one canonical path.
-
-This skill owns concrete repair mechanics. It does not replace project planning, approval policy, worktree strategy, or parent-task orchestration.
-
-## Package
-
-```text
-SKILL.md
-references/checklist.md
-references/source-notes.md
-```
-
-`SKILL.md` is at the repository root so the repository can be installed directly as an OpenClaw skill package.
+MIT — see `LICENSE`.
