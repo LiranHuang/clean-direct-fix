@@ -1,16 +1,11 @@
 # Repair checklist
 
-Use for complex, multi-surface, or high-risk repairs; do not load it for a simple one-owner local correction.
+Use only for complex, multi-surface or high-risk repairs, within existing work.
+This is not a sequence of extra gates or mandatory test commands.
 
-1. Name the canonical semantic owner, bad or obsolete path, unaffected adjacent behavior, and observable repair outcome.
-2. Trace the real entry path, including callers, loaders, configuration precedence, generated copies, and runtime consumers that can affect the behavior.
-3. Search for duplicate labels, fields, functions, configuration keys, prompt blocks, routes, services, timers, runners, or data paths with the same semantic responsibility.
-4. Put the change in the canonical owner; centralize duplicated constants, thresholds, budgets, and routing rules there.
-5. Remove, rewrite, or deliberately retire stale siblings after the replacement is verified. Do not leave old and new active for the same behavior.
-6. For a compatibility or migration shim, record its owner, purpose, old/new surfaces, removal condition, and evidence it is not a second source of truth.
-7. Migrate relevant callers, configuration, tests, and runtime entry points to the canonical owner.
-8. Run the project's real entry-path validation for the repaired behavior.
-9. Add or run positive evidence for the required behavior and negative or count evidence for stale or duplicate ownership where plausible.
-10. For runtime-affecting changes, verify each relevant process or loader uses the intended version or configuration.
-11. Inspect the final delta for coexistence, unjustified switches/fallbacks/retries, repeated checks or hidden errors, unrelated churn, temporary artifacts, and secrets; retain necessary security and integrity safeguards.
-12. Report the main path, retired or retained old path and its removal condition, exact verification, and remaining risk.
+1. Locate the canonical owner, obsolete path, affected boundary and observable repair result.
+2. Repair that owner and migrate required callers; retain compatibility only for proven users and a removal condition.
+3. In the existing diff review, remove duplicate paths and unjustified switches, fallbacks, retries or checks; preserve necessary security, integrity and recovery.
+4. Complete the repair, then use the shortest existing real entry path proving the requested outcome and actual loading where changed. Add negative/count checks only for a concrete unresolved ownership risk.
+5. Reuse valid evidence; recheck only failed or invalidated parts. Do not default to full tests, probes, fixtures, hashes or smoke. Stop once acceptance passes.
+6. Close applicable lifecycle work and report the adopted path, focused evidence and exact remaining blocker. No additional audit, test round or process sweep.

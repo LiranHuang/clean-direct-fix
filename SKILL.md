@@ -24,9 +24,11 @@ contract boundary or concrete failure mode; preserve necessary access control,
 input validation, integrity and recovery. In the existing final diff inspection,
 remove unjustified mechanisms and duplicated checks; add no separate audit.
 
-Verify the required behavior and, when duplication is plausible, the absence or
-count of obsolete owners. If runtime is affected, prove the real loader uses the
-adopted configuration. Report the canonical path, retired or retained path,
+After the repair, accept the requested behavior through the smallest existing
+real entry path, including actual loading when runtime changed, then stop.
+Do not default to tests, probes, fixtures, hashes, smoke or separate positive/
+negative gates; add only evidence missing for acceptance. Diagnose beforehand
+only to unblock the repair; after a fix, recheck only affected failed evidence. Report the canonical path, retired or retained path,
 focused verification, and remaining risk.
 
 For a complex, multi-surface, or high-risk repair, read the
