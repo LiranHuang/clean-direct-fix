@@ -1,13 +1,15 @@
 ---
 name: clean-direct-fix
-description: Repair a known configuration, prompt, policy, routing, or runtime-wiring defect through one canonical path. Use after the cause is known; repository code changes use start-to-code.
+description: Repair a known configuration, prompt, policy, routing, or runtime-wiring defect through one canonical path. Use directly when the cause is known, or after diagnose resolves it; code changes use start-to-code.
 ---
 
 # Clean Direct Fix
 
 Use for an authorized non-code repair whose main risk is adding a workaround
-beside the broken behavior. `AGENTS.md` governs lifecycle, Git, deployment, and
-acceptance.
+beside the broken behavior. For an unknown cause, investigate with `diagnose`
+first; an already authorized repair needs no renewed permission at the transition.
+Applicable host engineering instructions and `AGENTS.md` govern lifecycle, Git,
+deployment and acceptance.
 
 Name the canonical owner, obsolete or conflicting path, adjacent behavior to
 preserve, and observable repaired result. Trace the real load or routing path
