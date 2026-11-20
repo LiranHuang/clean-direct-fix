@@ -20,8 +20,13 @@ duplicate labels, keys, prompt blocks, routes, loaders, runners, thresholds, and
 policies under one owner. A compatibility shim needs proven callers, one
 subordinate source of truth, and a removal condition.
 
-Fix the cause rather than masking it with extra switches, fallback routes,
-retries or policy layers. Retain a safeguard only for a current requirement,
+A root-cause repair must explain and change the evidenced mechanism producing
+the reported error, not merely prevent a downstream consumer from accepting its
+output. Suppression, filtering, deduplication, retries and policy guards are
+mitigation unless evidence places the defect at that boundary. If the producing
+mechanism is unknown, report it as unresolved; never relabel mitigation as a
+root-cause fix. Make this distinction within the existing owner tracing and diff
+review, without an additional audit, test gate or speculative upstream search. Retain a safeguard only for a current requirement,
 contract boundary or concrete failure mode; preserve necessary access control,
 input validation, integrity and recovery. In the existing final diff inspection,
 remove unjustified mechanisms and duplicated checks; add no separate audit.
